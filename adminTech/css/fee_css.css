@@ -1,0 +1,46 @@
+/*tool tip css*/
+a.tip {
+    position: relative;
+    display: inline-block;
+
+}
+
+a.tip span {
+   visibility: hidden;
+    width: auto;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -10px;
+}
+a.tip span:after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+
+}
+
+a:hover.tip {
+    visibility: visible;
+}
+
+a:hover.tip span {
+    visibility: visible;
+}
+
+
+
+.img-circle {
+	
+}
