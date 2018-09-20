@@ -1,6 +1,7 @@
-<%@ page language="java" session="false" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" session="false" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="bean.User" %>    
 <!DOCTYPE html>
+
 <html>
 <head>
   <meta charset="utf-8">
@@ -29,26 +30,21 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="index.jsp"><b>Admin</b>LTE</a>
+    <a href="index.jsp"><b>Admin</b>Tech</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Enter your OTP</p>
-	
-	<% if(request.getAttribute("Mail")!=null){ %>		
-	    <%=request.getAttribute("Mail") %>	
-	<%} %>
-	
-	<% if(request.getAttribute("Error")!=null){%>
-		<%=request.getAttribute("Error") %>
+	<% if(request.getAttribute("error")!=null){%>
+		<%=request.getAttribute("error") %>
 	<%}%>
-	
-	<% HttpSession session = request.getSession(false);
-	   String subject = (String)session.getAttribute("subject");
+	<%  
+	   String email = request.getParameter("email");	   
 	%>
-    <form action="Verify" method="post">
+	<p class="login-box-msg"><%=email%></p>
+	
+    <form action="Verify?email=<%=email	 %>" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" name="otp" placeholder="Enter your OTP">
+        <input type="text" class="form-control" name="otp" >
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       
@@ -58,11 +54,11 @@
         <!-- /.col -->
         <div class="col-xs-4">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+          <a href="ResendOtp" class="btn btn-primary btn-block btn-flat">Resend</a>
         </div>
         <!-- /.col -->
       </div>
     </form>
-
     
     <!-- /.social-auth-links -->
 

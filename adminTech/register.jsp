@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>OneTech Admin | Registration Page</title>
+  <title>Admin Tech | Registration Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+  
+  <link rel="icon" href="img/Ecommerce.png" type="image/gif">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,23 +27,19 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition register-page">
+<body class="hold-transition register-page" style="background:url('img/beach-clouds-dawn-1370725.jpg') no-repeat no-repeat center fixed ;background-size:cover;">
 <div class="register-box">
   <div class="register-logo">
-    <a href="index.jsp"><b>OneTech </b>Admin</a>
+    <a href="index.jsp" style="color:white"><b>Admin</b>Tech</a>
   </div>
 
-  <div class="register-box-body">
+  <div class="register-box-body" style="box-shadow: -18px 18px 7px 1px rgba(0,0,0,0.3);border-radius:10px;">
     <p class="login-box-msg">Register a new membership</p>
 
-   <%
-      HttpSession session = request.getSession(true); 
-      session.setAttribute("subject", "Registration");
-   %>
    <% if(request.getAttribute("error")!=null){ %>
       <%=request.getAttribute("error") %>
    <%} %>
-    <form action="SendMail" method="post">
+    <form action="Registration" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="username" placeholder="Full name">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -57,6 +55,10 @@
       <div class="form-group has-feedback">
         <input type="number" class="form-control" name="ph_number" placeholder="Phone number">
         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" name="passwordhint" placeholder="Password Hint">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="row">
         

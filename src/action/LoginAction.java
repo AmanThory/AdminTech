@@ -24,7 +24,6 @@ public class LoginAction extends HttpServlet {
 		username = request.getParameter("username");
 		password = request.getParameter("password");
 		
-		System.out.println(username+"----"+password);
 		if(username.trim().length()==0 || password.trim().length()==0) {
 			request.setAttribute("error", "Don't enter space");
 			rd = request.getRequestDispatcher("login.jsp");
@@ -37,12 +36,18 @@ public class LoginAction extends HttpServlet {
 			
 			DAOFactory dao = DAOFactory.getDao();
 			user = dao.checkLogin(user);
-			System.out.println("User object - "+user);
+			
 			if(user!=null) { 
-				HttpSession session = request.getSession(true);
-				session.setAttribute("user_info", user);
-				rd = request.getRequestDispatcher("index.jsp");
-				rd.forward(request, response);
+				
+				if(user.getStatus().equals("pending")) {
+					rd = request.getRequestDispatcher("enterotp.jsp?email="+username);
+					rd.forward(request, response);	
+				}else {
+					HttpSession session = request.getSession(true);
+					session.setAttribute("user", user);
+					rd = request.getRequestDispatcher("index.jsp");
+					rd.forward(request, response);
+				}
 			}else {
 				request.setAttribute("error", "Please enter valid credential");
 				rd = request.getRequestDispatcher("login.jsp");

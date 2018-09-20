@@ -2,13 +2,17 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="bean.Product"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.DAOFactory"%>
+<%@page import="sqlDao.DAOFactory"%>
 <%@page import="bean.User"%>
+<%@page import="bean.Category" %>
 
 <%!
     ArrayList<Product> proList;
+    ArrayList<Category> allcategory;
     Product product;
+    Category category;
 	Iterator<Product> itr;
+	Iterator<Category> itr_cat;
 %>
 <% 
 
@@ -16,13 +20,17 @@
    if(session == null){
 	   response.sendRedirect("login.jsp");
    }else{
-    User user = (User)session.getAttribute("user_table");
+    User user = (User)session.getAttribute("user");
     
     DAOFactory dao = DAOFactory.getDao();
     proList = dao.getAllProduct();
+    allcategory = dao.getAllCategory();
     itr = proList.iterator();
+    itr_cat = allcategory.iterator(); 
 %>    
-    
+<%
+   Product product = (Product)request.getAttribute("product"); 
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,29 +93,58 @@
   <![endif]-->
   
   <script type="text/javascript">
-/* 	function deleteProduct()
+  
+ 	function deleteProduct()
 	{
+ 		alert('delete button pressed');
 		if(a.length>0){
-		 	for(int i=0;i<=a.length;i++){ 
-				document.location.href="product_delete.jsp?product_id="+a[i];
-				a.splice(0,1);
-			}
+		 		/* var product_id= []; */
+		 		alert(a);
+				document.location.href="product_delete.jsp?product_id="+a;
 		}
-		/* v = confirm("Are You sure you want to Delete product");
-		if(v)
-			document.location.href="product_delete.jsp?product_id="+val; 
-	} */	
-	
-	/* var a = []; */ 
-	function editProduct(val)
+		a=[];
+		 //v = confirm("Are You sure you want to Delete product");
+		//if(v)
+		//	document.location.href="product_delete.jsp?product_id="+val; 
+	}
+ 	function editProduct()
 	{
-		/* alert(val);
+ 		//alert('get button pressed');
+		if(a.length>0){
+		 		//alert(a);
+				//document.getElementById('myModal2'+a).click();
+				document.location.href="#myModel2"+a;
+		}
+		a=[];
+	} 
+ 	
+ 	
+	
+	 var a = [];  
+	function addProduct(val)
+	{
+		v = confirm("Are You sure you want to Add Product id");
+		var flag = true;
 		console.log(val);
-		a.add(val); */
+		if(a.length == 0){
+			console.log('array is empty');
+			a.push(val);
+		}else{
+
+			for(var i=0;i<a.length;i++){
+				if(a[i] == val){
+					a.splice(i,1);
+					flag=false;
+				}
+			}if(flag){
+			a.push(val);	
+			}	
+		}
+		console.log(a);
 		
-		 v = confirm("Are You sure you want to Edit Product");
-		if(v)
-			document.location.href="editProduct.jsp?product_id="+val;
+		
+		//if(v)
+		//	document.location.href="editProduct.jsp?product_id="+val;
 	}
 	/* function getCheckedCheckboxesFor(checkboxName) {
 		console.log(checkboxName);
@@ -342,7 +379,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><%=user.getName() %></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -350,7 +387,7 @@
                 <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
+                  <%=user.getName() %> - Web Developer
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -375,7 +412,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="LogOut" method="post" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -395,7 +432,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><%=user.getName() %></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -480,7 +517,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="alloffers.jsp"><i class="fa fa-circle-o"></i> All Offers</a></li>
+            <li><a href="categoryoffer.jsp"><i class="fa fa-circle-o"></i> Category Offer</a></li>
+            <li><a href="productoffer.jsp"><i class="fa fa-circle-o"></i> Product Offer</a></li>
            </ul>
         </li>
         <li class="treeview">
@@ -567,19 +605,26 @@
              </div>
               <!-- /.form group -->
 			                   
+            
                 <!-- Apply to -->
              <div class="form-group">
                   <label>Category</label>
+               
+                  
                   <select class="form-control" name="pcategory">
-                    <option selected="selected">--Category</option>
-                    <option>Man</option>
-                    <option>Woman</option>
-                    <option>Kid</option>
+                  <option selected="selected">--Category</option>
+                  <%while(itr_cat.hasNext()){
+            	    category = itr_cat.next();
+                  %>
+                    <option><%=category.getCategory() %></option>
+                    <%} %> 
                   </select>
+                 
                 </div>
               <!-- /.form group -->
 			</div>
-
+          
+        
            <div class="col-md-6">
                 <!-- Date range -->
               <div class="form-group">
@@ -606,6 +651,8 @@
                 <div class="form-group">
                   <label>Upload Image</label>
                   <input type="file" name="uploadimg" class="form-control">
+                  <input type="file" name="uploadimg2" class="form-control" style="border-top:none;border-bottom:none" >
+                  <input type="file" name="uploadimg3" class="form-control">
               </div>
 			</div>
                 
@@ -628,97 +675,16 @@
     </div>
   </div>
 </div>
-<a href="#myModal2" class="tip" class="btn btn-primary btn-lg" data-toggle="modal"><img src="img/edit.png" alt="Edit" style="margin-left:10px;"><span>Edit</span></a>
+<a href="#myModal2" onclick="editProduct()" class="tip" class="btn btn-primary btn-lg" data-toggle="modal"><img src="img/edit.png" alt="Edit" style="margin-left:10px;"><span>Edit</span></a>
                   <!-- /.Modal-2-->
-  <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="width: 950px;">
-    <div class="modal-content">
-      
-      <div class="modal-body">
-         
-            <div class="box box-info">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                 <form role="form">
-            <div class="box-body">
-                <div class="box-header with-border">
-               <h3 class="modal-title" id="myModalLabel">Edit Product</h3>
-            </div>
-            <div class="col-md-6">
-              <!-- fee category feild -->
-             <div class="form-group">
-                  <label>Product Name</label>
-                  <input type="text" name="epname" class="form-control" placeholder="Product Name">
-                </div>
-              <!-- /.form group -->
-			                   
-                <!-- Apply to -->
-             <div class="form-group">
-                  <label>Category</label>
-                  <select class="form-control" name="epcat">
-                    <option selected="selected">--Category</option>
-                    <option>Man</option>
-                    <option>Woman</option>
-                    <option>Kid</option>
-                  </select>
-                </div>
-              <!-- /.form group -->
-			</div>
-
-                <div class="col-md-6">
-                <!-- Date range -->
-              <div class="form-group">
-                <label>Price</label>
-                  <input type="text" name="epprice" class="form-control" placeholder="Price">
-                </div>
-                <!-- /.input group -->
-              
-              <!-- /.form group -->
-                 <!-- Date -->
-              <div class="form-group">
-               <label>Quantity</label>
-                  <input type="text" name="equantity" class="form-control" placeholder="Quantity">
-                </div>
-                <!-- /.input group -->
-				</div>
-            <div class="col-md-6">
-               <!-- Amount -->
-              <div class="form-group">
-                <label>Stock</label>
-                  <input type="text" name="epstock" class="form-control" placeholder="Stock">
-              </div>
-                <!-- Discount -->
-                 <div class="form-group">
-                <label>Upload Image</label>
-                  <input type="file" name="epimage" class="form-control">
-              </div>
-				</div>
-				<div class="col-md-6">
-              <!-- Status feild -->
-              <div class="form-group">
-                <label>Offer</label>
-                  <input type="text" name="epoffer" class="form-control" placeholder="Offer">
-              		</div>
-              
-              <!-- /.form group -->
-
-            
-                 <div class="box-footer">
-                <button type="submit" class="btn btn-primary" name="proedit">Edit Product</button>
-              </div>
-            
-            <!-- /.box-body -->
-</div>            </form>
-
-        </div></div>
-      </div>
-    </div>
-  </div>
+  
 </div>
 <!--Modal-2 finish-->
 
                 
                 
-                 <a href="#"  class="tip"  id="button"><img src="img/delete.png" alt="Delete" style="margin-left:10px;"><span>Delete</span></a>  
+                 <a class="tip"  onclick="deleteProduct();"  id="button"><img src="img/delete.png"  alt="Delete" style="margin-left:10px;"><span>Delete</span></a>
+                 <%-- <a class="btn btn-primary" onclick="deleteProduct(<%=product.getId()%>);"></a> --%>  
                 <a href="#" > <img src="img/excel.png" alt="Excel" style="margin-left:10px;"></img></a>
                 <a href="#" > <img src="img/pdf.png" alt="PDF" style="margin-left:10px;"></img></a>
             </div>
@@ -740,16 +706,13 @@
 					               data-pagination="true" data-show-pagination-switch="true">
 					            <thead>
 					                <tr>
-					                    <!-- <th  data-checkbox="true"></th> -->
-					                    <th>button</th>					      
+					                     <th data-checkbox="false"></td>					      
 										<th  data-align="center" data-sortable="true">Product Name</th>
 					                    <th  data-align="center" data-sortable="true">Category</th>
 					                    <th  data-align="center" data-sortable="true">Price</th>
 										<th  data-align="center" data-sortable="true">Quantity</th>
 					                    <th  data-align="center" data-sortable="true">Stock</th>
 					                    <th  data-align="center" data-sortable="true">Offer</th>
-										
-					                    
 					                </tr>
                                     
 					            </thead>
@@ -761,15 +724,102 @@
                                     <!--onchange="alert('hello')"-->
                                     
                                         <td> <!-- class="bs-checkbox " --> <!-- <input type="checkbox" data-index="0"  onclick="alert('hi');" name="checkid" /> -->
-                                         <a class="btn btn-primary" onclick="editProduct(<%=product.getId()%>);"></a></td>
-                                        <td><img alt="<%=product.getImage()%>" src="<%=request.getContextPath()%>/upload/<%=product.getImage()%>" ></td>
+                                        <input type="checkbox" onclick="addProduct(<%=product.getId()%>);" /></td>
+                                        <td><a  class="tip" class="btn btn-primary btn-lg" data-toggle="modal" href="#myModal2<%=product.getId()%>"> <img alt="<%=product.getImage()%>" src="<%=request.getContextPath()%>/upload/<%=product.getImage()%>" style="width: 60px; height: 60px;" ></a></td>
 										<td><%=product.getCategory() %></td>
 										<td><%=product.getPrice() %></td>
 										<td><%=product.getQty() %></td>
 										<td><%=product.getStock() %></td>
 										<td><%=product.getOffer() %></td>
 									</tr>
-							<%}%> 
+									
+<div class="modal fade" id="myModal2<%=product.getId() %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width: 950px;">
+    <div class="modal-content">
+      
+      <div class="modal-body">
+         
+            <div class="box box-info">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <form role="form" action="EditProductAction?id=<%=product.getId()%>" enctype="multipart/form-data" method="post">
+            <div class="box-body">
+                <div class="box-header with-border">
+               <h3 class="modal-title" id="myModalLabel">Edit Product</h3>
+            </div>
+            <div class="col-md-6">
+              <!-- fee category feild -->
+             <div class="form-group">
+                  <label>Product Name</label>
+                  <input type="text" name="epname" class="form-control" value="<%=product.getProduct_name()%>" >
+                </div>
+              <!-- /.form group -->
+			                   
+                <!-- Apply to -->
+             <div class="form-group">
+                  <label>Category</label>
+                  <select class="form-control" name="epcat">
+                    <option selected="selected">--Category</option>
+                    <option>Man</option>
+                    <option>Woman</option>
+                    <option>Kid</option>
+                  </select>
+                </div>
+              <!-- /.form group -->
+			</div>
+
+                <div class="col-md-6">
+                <!-- Date range -->
+              <div class="form-group">
+                <label>Price</label>
+                  <input type="text" name="epprice" class="form-control" value="<%=product.getPrice()%>">
+                </div>
+                <!-- /.input group -->
+              
+              <!-- /.form group -->
+                 <!-- Date -->
+              <div class="form-group">
+               <label>Quantity</label>
+                  <input type="text" name="equantity" class="form-control" value="<%=product.getQty()%>">
+                </div>
+                <!-- /.input group -->
+				</div>
+            <div class="col-md-6">
+               <!-- Amount -->
+              <div class="form-group">
+                <label>Stock</label>
+                  <input type="text" name="epstock" class="form-control" value="<%=product.getStock()%>" >
+              </div>
+                <!-- Discount -->
+                 <div class="form-group">
+                <label>Upload Image</label>
+                   <img alt="<%=product.getImage()%>" src="<%=request.getContextPath()%>/upload/<%=product.getImage()%>" style="width: 60px; height: 60px;" >
+                   <input type="text" name="etimage" class="form-control" value="<%=product.getImage()%>" >
+                   
+                   <input type="file" name="epimage" class="form-control" value="<%=product.getImage()%>">
+              </div>
+				</div>
+				<div class="col-md-6">
+              <!-- Status feild -->
+              <div class="form-group">
+                <label>Offer</label>
+                  <input type="text" name="epoffer" class="form-control" value="<%=product.getOffer()%>">
+              		</div>
+              
+              <!-- /.form group -->
+
+            
+                 <div class="box-footer">
+                <button type="submit" class="btn btn-primary" name="proedit">Edit Product</button>
+              </div>
+            
+            <!-- /.box-body -->
+</div>            </form>
+
+        </div></div>
+      </div>
+    </div>
+  </div>
+					<%}%> 
                                     
 					        </table>
 

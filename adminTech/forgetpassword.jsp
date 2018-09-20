@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Log in</title>
+  <title>AdminTech</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -29,19 +29,23 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="index.jsp"><b>Admin</b>LTE</a>
+    <a href="index.jsp"><b>Admin</b>Tech</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Enter your email ID</p>
-	<%
-	 HttpSession session = request.getSession(false);
-	 session.setAttribute("subject", "ForgetPassword");	
-	%>
 	
-    <form action="SendMail" method="post">
+    <form action="Registration" method="post">
       <div class="form-group has-feedback">
         <input type="email" class="form-control" name="username" placeholder="Email">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" name="passwordhint" placeholder="passwordhint">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="number" class="form-control" name="passwordhint" placeholder="phone number">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       
@@ -51,7 +55,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
         </div>
         <!-- /.col -->
       </div>

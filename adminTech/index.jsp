@@ -6,14 +6,14 @@
     if(session == null){  
 		response.sendRedirect("login.jsp");
 	}else{
-	    User user = (User)session.getAttribute("user_info");
+	    User user = (User)session.getAttribute("user");
 		   
 %>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Admin OneTech | Dashboard</title>
+  <title>Admin Tech | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -402,7 +402,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="alloffers.jsp"><i class="fa fa-circle-o"></i> All Offer</a></li>
+            <li><a href="categoryoffer.jsp"><i class="fa fa-circle-o"></i> Category Offer</a></li>
+            <li><a href="productoffer.jsp"><i class="fa fa-circle-o"></i> Product Offer</a></li>
           </ul>
         </li>
         <li class="treeview">

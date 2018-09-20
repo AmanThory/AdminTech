@@ -1,9 +1,25 @@
 package bean;
 
 public class User {
-	String name,email,pass,statuc,city,state,phone;
+	String name,email,pass,status,city,state,phone,otp,passhint;
 
 	
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	public String getPasshint() {
+		return passhint;
+	}
+
+	public void setPasshint(String passhint) {
+		this.passhint = passhint;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -28,12 +44,12 @@ public class User {
 		this.pass = pass;
 	}
 
-	public String getStatuc() {
-		return statuc;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setStatuc(String statuc) {
-		this.statuc = statuc;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getCity() {

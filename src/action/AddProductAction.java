@@ -75,7 +75,7 @@ public class AddProductAction extends HttpServlet {
 			List formItems = upload.parseRequest(request);
 			Iterator iter = formItems.iterator();
 			
-			while (iter.hasNext()) 
+			while(iter.hasNext()) 
 			{
 				
 				FileItem item = (FileItem) iter.next();
@@ -85,35 +85,54 @@ public class AddProductAction extends HttpServlet {
 					
 					product.setProduct_name(item.getString());
 				}
-				else if(item.getFieldName().equals("pcategory")) {
+				if(item.getFieldName().equals("pcategory")) {
 					
 					product.setCategory(item.getString());
 				}
-				else if(item.getFieldName().equals("pprice")) {
+				if(item.getFieldName().equals("pprice")) {
 					
 					product.setPrice(item.getString());
 				}
-				else if(item.getFieldName().equals("pstock")) {
+				if(item.getFieldName().equals("pstock")) {
 					
 					product.setStock(item.getString());
 				}
-				else if(item.getFieldName().equals("pquantity")) {
+				if(item.getFieldName().equals("pquantity")) {
 					
 					product.setQty(item.getString());
 				}
-				else if(item.getFieldName().equals("poffer")) {
+				if(item.getFieldName().equals("poffer")) {
 					
 					product.setOffer(item.getString());
 				}
-				else if (!item.isFormField() || item.getFieldName().equals("uploadimg")) 
+				if (item.getFieldName().equals("uploadimg")) 
 				{
-					System.out.println("Hello");
+					System.out.println("Three Images");
 					
 					String fileName = new File(item.getName()).getName();
 					product.setImage(fileName);
+					System.out.println(fileName);
 					String filePath = uploadPath + File.separator + fileName;
 					File storeFile = new File(filePath);
 					item.write(storeFile);
+				}
+				if (item.getFieldName().equals("uploadimg2")) 
+				{
+					String fileName2 = new File(item.getName()).getName();
+					System.out.println(fileName2);
+					product.setImage2(fileName2);
+					String filePath2 = uploadPath + File.separator + fileName2;
+					File storeFile2 = new File(filePath2);
+					item.write(storeFile2);
+				}
+				if (item.getFieldName().equals("uploadimg3")) 
+				{
+					String fileName3 = new File(item.getName()).getName();
+					System.out.println(fileName3);
+					product.setImage3(fileName3);
+					String filePath3 = uploadPath + File.separator + fileName3;
+					File storeFile3 = new File(filePath3);
+					item.write(storeFile3);
 				}
 			}
 		} catch (Exception ex) {

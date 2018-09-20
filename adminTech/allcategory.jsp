@@ -423,8 +423,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="alloffers.jsp"><i class="fa fa-circle-o"></i> All Offers</a></li>
-            
+            <li><a href="categoryoffer.jsp"><i class="fa fa-circle-o"></i> Category Offer</a></li>
+            <li><a href="productoffer.jsp"><i class="fa fa-circle-o"></i> Product Offer</a></li> 
           </ul>
         </li>
         <li class="treeview">
@@ -494,21 +494,20 @@
          
             <div class="box box-info">
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <form role="form">
+                  <form role="form" action="CategoryAction" method="post">
             <div class="box-body">
                 <div class="box-header with-border">
                <h3 class="modal-title" id="myModalLabel">Add Category</h3>
             </div>
                  <!-- fee id feild -->
              <div class="form-group">
-                  <label>Category ID</label>
-                  <input type="text" name="add_fee_id" class="form-control" placeholder="Category ID">
-                </div>
+             
+              </div>
               <!-- /.form group -->
               <!-- fee category feild -->
 			  <div class="form-group">
                   <label>Category Name</label>
-                  <input type="text" name="add_fee_id" class="form-control" placeholder="Category Name">
+                  <input type="text" name="category_name" class="form-control" placeholder="Category Name">
                 </div>
 			  <!-- /.form group -->
              
@@ -574,7 +573,12 @@
                     <div id="container" class="effect aside-float aside-bright mainnav-lg">
    
                              <!--<input type="button" id="dmo-delete-row" class="buton buton-danger" disabled value="Delete">-->      
-					        
+					        <%if(request.getAttribute("error")!=null){ %>
+					        <%=request.getAttribute("error") %>
+					        <%}%>
+					        <%if(request.getAttribute("success")!=null){ %>
+					        <%=request.getAttribute("success") %>
+					        <%}%>
 					        <table id="demo-custom-toolbar" class="demo-add-niftycheck" data-toggle="table"
 					              
 					               data-toolbar=""

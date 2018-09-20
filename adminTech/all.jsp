@@ -423,7 +423,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="alloffers.jsp"><i class="fa fa-circle-o"></i> All Offer</a></li>
+            <li><a href="categoryoffer.jsp"><i class="fa fa-circle-o"></i> Category Offer</a></li>
+            <li><a href="productoffer.jsp"><i class="fa fa-circle-o"></i> Product Offer</a></li>
           </ul>
         </li>
         <li class="treeview">
